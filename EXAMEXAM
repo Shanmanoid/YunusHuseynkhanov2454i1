@@ -1,0 +1,1136 @@
+1. acm_team
+python
+Copy
+Edit
+def acm_team(topic: list[str]) -> list[int]:
+    max_topics = 0
+    team_count = 0
+    for i in range(len(topic)):
+        for j in range(i + 1, len(topic)):
+            combined = bin(int(topic[i], 2) | int(topic[j], 2)).count('1')
+            if combined > max_topics:
+                max_topics = combined
+                team_count = 1
+            elif combined == max_topics:
+                team_count += 1
+    return [max_topics, team_count]
+2. alternate
+python
+Copy
+Edit
+def alternate(s: str) -> int:
+    from itertools import combinations
+    unique = set(s)
+    max_len = 0
+    for a, b in combinations(unique, 2):
+        filtered = [ch for ch in s if ch == a or ch == b]
+        if all(filtered[i] != filtered[i+1] for i in range(len(filtered)-1)):
+            max_len = max(max_len, len(filtered))
+    return max_len
+3. are_sentences_similar
+python
+Copy
+Edit
+def are_sentences_similar(sentence1: list[str], sentence2: list[str], similarPairs: list[list[str]]) -> bool:
+    if len(sentence1) != len(sentence2):
+        return False
+    similar = set()
+    for a, b in similarPairs:
+        similar.add((a, b))
+        similar.add((b, a))
+    return all(w1 == w2 or (w1, w2) in similar for w1, w2 in zip(sentence1, sentence2))
+4. array_rank_transform
+python
+Copy
+Edit
+def array_rank_transform(arr: list[int]) -> list[int]:
+    rank = {v: i + 1 for i, v in enumerate(sorted(set(arr)))}
+    return [rank[v] for v in arr]
+5. average_salary_excluding_min_max
+python
+Copy
+Edit
+def average_salary_excluding_min_max(salary: list[int]) -> float:
+    salary.remove(min(salary))
+    salary.remove(max(salary))
+    return sum(salary) / len(salary)
+6. balancedSums
+python
+Copy
+Edit
+def balancedSums(arr: list[int]) -> str:
+    total = sum(arr)
+    left = 0
+    for a in arr:
+        if left == total - left - a:
+            return "YES"
+        left += a
+    return "NO"
+7. beautifulDays
+python
+Copy
+Edit
+def beautifulDays(i: int, j: int, k: int) -> int:
+    count = 0
+    for day in range(i, j + 1):
+        rev = int(str(day)[::-1])
+        if abs(day - rev) % k == 0:
+            count += 1
+    return count
+8. buddy_strings
+python
+Copy
+Edit
+def buddy_strings(s: str, goal: str) -> bool:
+    if len(s) != len(goal): return False
+    if s == goal: return len(set(s)) < len(s)
+    pairs = [(a, b) for a, b in zip(s, goal) if a != b]
+    return len(pairs) == 2 and pairs[0] == pairs[1][::-1]
+9. caesarCipher
+python
+Copy
+Edit
+def caesarCipher(s: str, k: int) -> str:
+    result = ''
+    for c in s:
+        if c.isalpha():
+            base = ord('A') if c.isupper() else ord('a')
+            result += chr((ord(c) - base + k) % 26 + base)
+        else:
+            result += c
+    return result
+10. calculate_typing_time
+python
+Copy
+Edit
+def calculate_typing_time(keyboard: str, word: str) -> int:
+    pos = 0
+    total = 0
+    for char in word:
+        new_pos = keyboard.index(char)
+        total += abs(new_pos - pos)
+        pos = new_pos
+    return total
+11. can_be_equal
+python
+Copy
+Edit
+def can_be_equal(target: list[int], arr: list[int]) -> bool:
+    return sorted(target) == sorted(arr)
+12. can_form_palindrome
+python
+Copy
+Edit
+def can_form_palindrome(s: str) -> str:
+    odd = sum(s.count(c) % 2 for c in set(s))
+    return "YES" if odd <= 1 else "NO"
+13. can_place_flowers
+python
+Copy
+Edit
+def can_place_flowers(flowerbed: list[int], n: int) -> bool:
+    i = 0
+    while i < len(flowerbed):
+        if flowerbed[i] == 0 and (i == 0 or flowerbed[i - 1] == 0) and (i == len(flowerbed)-1 or flowerbed[i + 1] == 0):
+            flowerbed[i] = 1
+            n -= 1
+            i += 1
+        i += 1
+    return n <= 0
+14. cavityMap
+python
+Copy
+Edit
+def cavityMap(grid: list[str]) -> list[str]:
+    n = len(grid)
+    result = [list(row) for row in grid]
+    for i in range(1, n - 1):
+        for j in range(1, n - 1):
+            val = grid[i][j]
+            if (val > grid[i-1][j] and val > grid[i+1][j] and
+                val > grid[i][j-1] and val > grid[i][j+1]):
+                result[i][j] = 'X'
+    return [''.join(row) for row in result]
+15. check_ones_distance
+python
+Copy
+Edit
+def check_ones_distance(nums: list[int], k: int) -> bool:
+    prev = -1
+    for i, val in enumerate(nums):
+        if val == 1:
+            if prev != -1 and i - prev - 1 < k:
+                return False
+            prev = i
+    return True
+16. check_segment_length
+python
+Copy
+Edit
+def check_segment_length(s: str) -> bool:
+    return '01' not in s.strip('0')
+17. check_straight_line
+python
+Copy
+Edit
+def check_straight_line(coordinates: list[list[int]]) -> bool:
+    x0, y0 = coordinates[0]
+    dx, dy = coordinates[1][0] - x0, coordinates[1][1] - y0
+    for x, y in coordinates[2:]:
+        if dx * (y - y0) != dy * (x - x0):
+            return False
+    return True
+18. chocolateFeast
+python
+Copy
+Edit
+def chocolateFeast(n: int, c: int, m: int) -> int:
+    bars = n // c
+    wrappers = bars
+    while wrappers >= m:
+        new = wrappers // m
+        bars += new
+        wrappers = wrappers % m + new
+    return bars
+19. closestNumbers
+python
+Copy
+Edit
+def closestNumbers(arr: list[int]) -> list[int]:
+    arr.sort()
+    min_diff = min(b - a for a, b in zip(arr, arr[1:]))
+    result = []
+    for a, b in zip(arr, arr[1:]):
+        if b - a == min_diff:
+            result.extend([a, b])
+    return result
+20. coin_change_combinations
+python
+Copy
+Edit
+def coin_change_combinations(coins: list[int], amount: int) -> int:
+    dp = [0] * (amount + 1)
+    dp[0] = 1
+    for coin in coins:
+        for i in range(coin, amount + 1):
+            dp[i] += dp[i - coin]
+    return dp[amount]
+21. compare_swaps_bubble_insertion_sort
+python
+Copy
+Edit
+def compare_swaps_bubble_insertion_sort(arr):
+    bubble, insertion = 0, 0
+    # Bubble sort
+    a = arr[:]
+    for i in range(len(a)):
+        for j in range(len(a) - 1):
+            if a[j] > a[j + 1]:
+                a[j], a[j + 1] = a[j + 1], a[j]
+                bubble += 1
+    # Insertion sort
+    a = arr[:]
+    for i in range(1, len(a)):
+        j = i
+        while j > 0 and a[j] < a[j - 1]:
+            a[j], a[j - 1] = a[j - 1], a[j]
+            insertion += 1
+            j -= 1
+    return "insertion" if insertion <= bubble else "bubble"
+22. count_incremovable_subarrays
+python
+Copy
+Edit
+def count_incremovable_subarrays(nums: list[int]) -> int:
+    def is_inc(arr):
+        return all(arr[i] < arr[i+1] for i in range(len(arr)-1))
+    count = 0
+    for i in range(len(nums)):
+        for j in range(i, len(nums)):
+            temp = nums[:i] + nums[j+1:]
+            if is_inc(temp):
+                count += 1
+    return count
+23. count_negatives
+python
+Copy
+Edit
+def count_negatives(grid: list[list[int]]) -> int:
+    return sum(num < 0 for row in grid for num in row)
+
+
+
+24. count_special_problems
+python
+Copy
+Edit
+def count_special_problems(n: int, k: int, arr: list[int]) -> int:
+    page = 1
+    count = 0
+    for problems in arr:
+        for i in range(1, problems + 1):
+            if i == page:
+                count += 1
+            if i % k == 0 or i == problems:
+                page += 1
+    return count
+25. diet_plan_performance
+python
+Copy
+Edit
+def diet_plan_performance(calories: list[int], k: int, lower: int, upper: int) -> int:
+    points = 0
+    window = sum(calories[:k])
+    if window < lower:
+        points -= 1
+    elif window > upper:
+        points += 1
+    for i in range(k, len(calories)):
+        window += calories[i] - calories[i - k]
+        if window < lower:
+            points -= 1
+        elif window > upper:
+            points += 1
+    return points
+26. earliest_year_with_maximum_population
+python
+Copy
+Edit
+def earliest_year_with_maximum_population(logs: list[list[int]]) -> int:
+    population = [0] * 101  # 1950 to 2050
+    for birth, death in logs:
+        for year in range(birth, death):
+            population[year - 1950] += 1
+    max_pop = max(population)
+    return 1950 + population.index(max_pop)
+27. edit_distance
+python
+Copy
+Edit
+def edit_distance(word1, word2):
+    m, n = len(word1), len(word2)
+    dp = [[0]*(n+1) for _ in range(m+1)]
+    for i in range(m+1):
+        for j in range(n+1):
+            if i == 0:
+                dp[i][j] = j
+            elif j == 0:
+                dp[i][j] = i
+            elif word1[i-1] == word2[j-1]:
+                dp[i][j] = dp[i-1][j-1]
+            else:
+                dp[i][j] = 1 + min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])
+    return dp[m][n]
+28. fair_candy_swap
+python
+Copy
+Edit
+def fair_candy_swap(a: list[int], b: list[int]) -> list[int]:
+    sa, sb = sum(a), sum(b)
+    diff = (sb - sa) // 2
+    b_set = set(b)
+    for x in a:
+        if x + diff in b_set:
+            return [x, x + diff]
+29. findLHS
+python
+Copy
+Edit
+def findLHS(nums: list[int]) -> int:
+    from collections import Counter
+    count = Counter(nums)
+    return max((count[x] + count[x + 1]) for x in count if x + 1 in count) if nums else 0
+30. findPoisonedDuration
+python
+Copy
+Edit
+def findPoisonedDuration(timeSeries: list[int], duration: int) -> int:
+    if not timeSeries: return 0
+    total = 0
+    for i in range(len(timeSeries) - 1):
+        total += min(timeSeries[i + 1] - timeSeries[i], duration)
+    return total + duration
+31. find_common_elements
+python
+Copy
+Edit
+def find_common_elements(arr1: list[int], arr2: list[int], arr3: list[int]) -> list[int]:
+    return sorted(set(arr1) & set(arr2) & set(arr3))
+32. find_common_strings_with_least_index_sum
+python
+Copy
+Edit
+def find_common_strings_with_least_index_sum(list1: list[str], list2: list[str]) -> list[str]:
+    index_map = {s: i for i, s in enumerate(list1)}
+    min_sum = float('inf')
+    result = []
+    for j, word in enumerate(list2):
+        if word in index_map:
+            total = j + index_map[word]
+            if total < min_sum:
+                min_sum = total
+                result = [word]
+            elif total == min_sum:
+                result.append(word)
+    return result
+33. find_destination_city
+python
+Copy
+Edit
+def find_destination_city(paths: list[list[str]]) -> str:
+    start = set(a for a, b in paths)
+    for a, b in paths:
+        if b not in start:
+            return b
+34. find_final_array
+python
+Copy
+Edit
+def find_final_array(arr: list[int]) -> list[int]:
+    for i in range(1, len(arr) - 1):
+        if arr[i] < arr[i - 1] and arr[i] < arr[i + 1]:
+            arr[i] = max(arr[i - 1], arr[i + 1])
+    return arr
+35. find_judge
+python
+Copy
+Edit
+def find_judge(n: int, trust: list[list[int]]) -> int:
+    trust_score = [0] * (n + 1)
+    for a, b in trust:
+        trust_score[a] -= 1
+        trust_score[b] += 1
+    for i in range(1, n + 1):
+        if trust_score[i] == n - 1:
+            return i
+    return -1
+36. find_kth_positive
+python
+Copy
+Edit
+def find_kth_positive(arr: list[int], k: int) -> int:
+    missing = 0
+    num = 1
+    idx = 0
+    while True:
+        if idx < len(arr) and arr[idx] == num:
+            idx += 1
+        else:
+            missing += 1
+            if missing == k:
+                return num
+        num += 1
+37. find_length_of_lcis
+python
+Copy
+Edit
+def find_length_of_lcis(nums: list[int]) -> int:
+    max_len = cur = 1 if nums else 0
+    for i in range(1, len(nums)):
+        cur = cur + 1 if nums[i] > nums[i-1] else 1
+        max_len = max(max_len, cur)
+    return max_len
+38. find_max_sum_less_than_k
+python
+Copy
+Edit
+def find_max_sum_less_than_k(nums: list[int], k: int) -> int:
+    max_sum = -1
+    for i in range(len(nums)):
+        for j in range(i+1, len(nums)):
+            s = nums[i] + nums[j]
+            if s < k:
+                max_sum = max(max_sum, s)
+    return max_sum
+39. find_nearest_valid_point
+python
+Copy
+Edit
+def find_nearest_valid_point(x: int, y: int, points: list[list[int]]) -> int:
+    min_dist = float('inf')
+    index = -1
+    for i, (px, py) in enumerate(points):
+        if px == x or py == y:
+            dist = abs(px - x) + abs(py - y)
+            if dist < min_dist:
+                min_dist = dist
+                index = i
+    return index
+40. find_removed_value
+python
+Copy
+Edit
+def find_removed_value(arr: list[int]) -> int:
+    arr.sort()
+    d = (arr[-1] - arr[0]) // len(arr)
+    for i in range(len(arr)-1):
+        if arr[i+1] - arr[i] != d:
+            return arr[i] + d
+41. find_shortest_subarray_with_degree
+python
+Copy
+Edit
+def find_shortest_subarray_with_degree(nums: list[int]) -> int:
+    from collections import defaultdict
+    first, last, count = {}, {}, defaultdict(int)
+    for i, n in enumerate(nums):
+        if n not in first:
+            first[n] = i
+        last[n] = i
+        count[n] += 1
+    degree = max(count.values())
+    return min(last[n] - first[n] + 1 for n in count if count[n] == degree)
+42. find_special_integer
+python
+Copy
+Edit
+def find_special_integer(nums: list[int]) -> int:
+    for n in set(nums):
+        if nums.count(n) == 1:
+            return n
+    return -1
+43. find_the_distance_value
+python
+Copy
+Edit
+def find_the_distance_value(arr1, arr2, d):
+    count = 0
+    for a in arr1:
+        if all(abs(a - b) > d for b in arr2):
+            count += 1
+    return count
+44. flood_fill
+python
+Copy
+Edit
+def flood_fill(image: list[list[int]], sr: int, sc: int, color: int) -> list[list[int]]:
+    old = image[sr][sc]
+    if old == color:
+        return image
+    rows, cols = len(image), len(image[0])
+    def fill(r, c):
+        if 0 <= r < rows and 0 <= c < cols and image[r][c] == old:
+            image[r][c] = color
+            fill(r+1, c)
+            fill(r-1, c)
+            fill(r, c+1)
+            fill(r, c-1)
+    fill(sr, sc)
+    return image
+45. format_with_dots
+python
+Copy
+Edit
+def format_with_dots(n: int) -> str:
+    return f'{n:,}'.replace(',', '.')
+46. gameOfStones
+python
+Copy
+Edit
+def gameOfStones(n: int) -> str:
+    return "First" if n % 7 not in [0, 1] else "Second"
+47. happyLadybugs
+python
+Copy
+Edit
+def happyLadybugs(b: str) -> str:
+    from collections import Counter
+    if '_' in b:
+        counts = Counter(b)
+        return 'YES' if all(v > 1 for k, v in counts.items() if k != '_') else 'NO'
+    return 'YES' if all(b[i] == b[i+1] or b[i] == b[i-1] for i in range(len(b))) else 'NO'
+48. howManyGames
+python
+Copy
+Edit
+def howManyGames(p: int, d: int, m: int, s: int) -> int:
+    games, cost = 0, 0
+    while s >= p and p > m:
+        s -= p
+        p = max(p - d, m)
+        games += 1
+    while s >= m:
+        s -= m
+        games += 1
+    return games
+49. icecreamParlor
+python
+Copy
+Edit
+def icecreamParlor(m: int, cost: list[int]) -> list[int]:
+    for i in range(len(cost)):
+        for j in range(i+1, len(cost)):
+            if cost[i] + cost[j] == m:
+                return [i+1, j+1]
+50. intersect_two_arrays
+python
+Copy
+Edit
+def intersect_two_arrays(nums1: list[int], nums2: list[int]) -> list[int]:
+    res = []
+    for n in nums1:
+        if n in nums2:
+            res.append(n)
+            nums2.remove(n)
+    return res
+
+
+
+51. isValidStringSameOccurence
+python
+Copy
+Edit
+def isValidStringSameOccurence(s: str) -> str:
+    from collections import Counter
+    vals = list(Counter(s).values())
+    return "YES" if max(vals) - min(vals) <= 1 and vals.count(max(vals)) == 1 or len(set(vals)) == 1 else "NO"
+52. is_majority_element
+python
+Copy
+Edit
+def is_majority_element(nums: list[int], target: int) -> bool:
+    return nums.count(target) > len(nums) // 2
+53. is_path_crossing
+python
+Copy
+Edit
+def is_path_crossing(path: str) -> bool:
+    x = y = 0
+    visited = set([(0, 0)])
+    for move in path:
+        if move == 'N': y += 1
+        elif move == 'S': y -= 1
+        elif move == 'E': x += 1
+        elif move == 'W': x -= 1
+        if (x, y) in visited:
+            return True
+        visited.add((x, y))
+    return False
+54. is_valid_mountain_array
+python
+Copy
+Edit
+def is_valid_mountain_array(arr: list[int]) -> bool:
+    i = 0
+    while i + 1 < len(arr) and arr[i] < arr[i+1]: i += 1
+    if i == 0 or i == len(arr) - 1: return False
+    while i + 1 < len(arr) and arr[i] > arr[i+1]: i += 1
+    return i == len(arr) - 1
+55. island_perimeter
+python
+Copy
+Edit
+def island_perimeter(grid: list[list[int]]) -> int:
+    peri = 0
+    for i in range(len(grid)):
+        for j in range(len(grid[0])):
+            if grid[i][j]:
+                peri += 4
+                if i > 0 and grid[i-1][j]: peri -= 2
+                if j > 0 and grid[i][j-1]: peri -= 2
+    return peri
+56. jumpingOnClouds
+python
+Copy
+Edit
+def jumpingOnClouds(c: list[int]) -> int:
+    i = jumps = 0
+    while i < len(c) - 1:
+        if i+2 < len(c) and c[i+2] == 0:
+            i += 2
+        else:
+            i += 1
+        jumps += 1
+    return jumps
+57. k_closest
+python
+Copy
+Edit
+def k_closest(points: list[list[int]], k: int) -> list[list[int]]:
+    return sorted(points, key=lambda x: x[0]**2 + x[1]**2)[:k]
+58. k_weakest_rows
+python
+Copy
+Edit
+def k_weakest_rows(mat: list[list[int]], k: int) -> list[int]:
+    return sorted(range(len(mat)), key=lambda i: (sum(mat[i]), i))[:k]
+59. kids_with_candies
+python
+Copy
+Edit
+def kids_with_candies(candies: list[int], extraCandies: int) -> list[bool]:
+    m = max(candies)
+    return [x + extraCandies >= m for x in candies]
+60. knapsack
+python
+Copy
+Edit
+def knapsack(weights, values, capacity):
+    n = len(weights)
+    dp = [[0]*(capacity+1) for _ in range(n+1)]
+    for i in range(1, n+1):
+        for w in range(capacity+1):
+            if weights[i-1] <= w:
+                dp[i][w] = max(dp[i-1][w], dp[i-1][w-weights[i-1]] + values[i-1])
+            else:
+                dp[i][w] = dp[i-1][w]
+    return dp[n][capacity]
+61. largestPermutation
+python
+Copy
+Edit
+def largestPermutation(k: int, arr: list[int]) -> list[int]:
+    idx = {v: i for i, v in enumerate(arr)}
+    n = len(arr)
+    for i in range(n):
+        if k == 0:
+            break
+        largest = n - i
+        if arr[i] != largest:
+            idx[arr[i]], idx[largest] = idx[largest], idx[arr[i]]
+            arr[i], arr[idx[largest]] = largest, arr[i]
+            k -= 1
+    return arr
+62. largest_sum_after_k_negations
+python
+Copy
+Edit
+def largest_sum_after_k_negations(nums: list[int], k: int) -> int:
+    nums.sort()
+    for i in range(len(nums)):
+        if k > 0 and nums[i] < 0:
+            nums[i] = -nums[i]
+            k -= 1
+    if k % 2 == 1:
+        nums.sort()
+        nums[0] = -nums[0]
+    return sum(nums)
+63. longest_duration_key
+python
+Copy
+Edit
+def longest_duration_key(keysPressed: str, releaseTimes: list[int]) -> str:
+    max_time = releaseTimes[0]
+    result = keysPressed[0]
+    for i in range(1, len(releaseTimes)):
+        duration = releaseTimes[i] - releaseTimes[i - 1]
+        if duration > max_time or (duration == max_time and keysPressed[i] > result):
+            max_time = duration
+            result = keysPressed[i]
+    return result
+64. longest_nice_substring
+python
+Copy
+Edit
+def longest_nice_substring(s: str) -> str:
+    if len(s) < 2:
+        return ""
+    for i, c in enumerate(s):
+        if c.swapcase() not in s:
+            left = longest_nice_substring(s[:i])
+            right = longest_nice_substring(s[i+1:])
+            return left if len(left) >= len(right) else right
+    return s
+65. longest_substring_between_equal_characters
+python
+Copy
+Edit
+def longest_substring_between_equal_characters(s: str) -> int:
+    max_len = -1
+    for i in range(len(s)):
+        for j in range(len(s)-1, i, -1):
+            if s[i] == s[j]:
+                max_len = max(max_len, j - i - 1)
+                break
+    return max_len
+66. luckBalance
+python
+Copy
+Edit
+def luckBalance(k: int, contests: list[list[int]]) -> int:
+    contests.sort(reverse=True, key=lambda x: x[0] if x[1] else -1)
+    total = 0
+    for luck, important in contests:
+        if important and k > 0:
+            total += luck
+            k -= 1
+        elif important:
+            total -= luck
+        else:
+            total += luck
+    return total
+67. make_good
+python
+Copy
+Edit
+def make_good(s: str) -> str:
+    stack = []
+    for c in s:
+        if stack and abs(ord(stack[-1]) - ord(c)) == 32:
+            stack.pop()
+        else:
+            stack.append(c)
+    return ''.join(stack)
+68. matrixReshape
+python
+Copy
+Edit
+def matrixReshape(mat: list[list[int]], r: int, c: int) -> list[list[int]]:
+    flat = sum(mat, [])
+    if len(flat) != r * c:
+        return mat
+    return [flat[i*c:(i+1)*c] for i in range(r)]
+69. max_balloons
+python
+Copy
+Edit
+def max_balloons(text: str) -> int:
+    from collections import Counter
+    count = Counter(text)
+    return min(count['b'], count['a'], count['l'] // 2, count['o'] // 2, count['n'])
+70. max_subsequence_size
+python
+Copy
+Edit
+def max_subsequence_size(nums: list[int], queries: list[int]) -> list[int]:
+    nums.sort()
+    result = []
+    for q in queries:
+        total = count = 0
+        for n in nums:
+            if total + n > q:
+                break
+            total += n
+            count += 1
+        result.append(count)
+    return result
+71. max_sum_less_than_k
+python
+Copy
+Edit
+def max_sum_less_than_k(nums: list[int], k: int) -> int:
+    max_sum = -1
+    for i in range(len(nums)):
+        for j in range(i + 1, len(nums)):
+            s = nums[i] + nums[j]
+            if s < k:
+                max_sum = max(max_sum, s)
+    return max_sum
+72. maximum_wealth
+python
+Copy
+Edit
+def maximum_wealth(accounts: list[list[int]]) -> int:
+    return max(sum(row) for row in accounts)
+73. migratoryBirds
+python
+Copy
+Edit
+def migratoryBirds(arr):
+    from collections import Counter
+    count = Counter(arr)
+    return min([k for k in count if count[k] == max(count.values())])
+74. min_operations_to_make_strictly_increasing
+python
+Copy
+Edit
+def min_operations_to_make_strictly_increasing(nums: list[int]) -> int:
+    ops = 0
+    for i in range(1, len(nums)):
+        if nums[i] <= nums[i - 1]:
+            ops += nums[i - 1] - nums[i] + 1
+            nums[i] = nums[i - 1] + 1
+    return ops
+75. min_path_cost
+python
+Copy
+Edit
+def min_path_cost(grid, moveCost):
+    from math import inf
+    rows, cols = len(grid), len(grid[0])
+    dp = [row[:] for row in grid]
+    for i in range(1, rows):
+        for j in range(cols):
+            dp[i][j] = min(dp[i-1][k] + moveCost[grid[i-1][k]][j] + grid[i][j] for k in range(cols))
+    return min(dp[-1])
+
+
+
+76. min_path_sum
+python
+Copy
+Edit
+def min_path_sum(grid):
+    m, n = len(grid), len(grid[0])
+    dp = [[0]*n for _ in range(m)]
+    for i in range(m):
+        for j in range(n):
+            if i == 0 and j == 0:
+                dp[i][j] = grid[i][j]
+            elif i == 0:
+                dp[i][j] = dp[i][j-1] + grid[i][j]
+            elif j == 0:
+                dp[i][j] = dp[i-1][j] + grid[i][j]
+            else:
+                dp[i][j] = min(dp[i-1][j], dp[i][j-1]) + grid[i][j]
+    return dp[-1][-1]
+77. minimum_distances
+python
+Copy
+Edit
+def minimum_distances(a: list[int]) -> int:
+    min_dist = float('inf')
+    for i in range(len(a)):
+        for j in range(i + 1, len(a)):
+            if a[i] == a[j]:
+                min_dist = min(min_dist, j - i)
+    return min_dist if min_dist != float('inf') else -1
+78. missingNumbers
+python
+Copy
+Edit
+def missingNumbers(arr: list[int], brr: list[int]) -> list[int]:
+    from collections import Counter
+    count1 = Counter(arr)
+    count2 = Counter(brr)
+    return sorted([k for k in count2 if count2[k] > count1.get(k, 0)])
+79. modify_string
+python
+Copy
+Edit
+def modify_string(s: str) -> str:
+    res = list(s)
+    for i in range(len(res)):
+        if res[i] == '?':
+            for c in 'abcdefghijklmnopqrstuvwxyz':
+                if (i == 0 or res[i-1] != c) and (i == len(res)-1 or res[i+1] != c):
+                    res[i] = c
+                    break
+    return ''.join(res)
+80. next_greatest_letter
+python
+Copy
+Edit
+def next_greatest_letter(letters: list[str], target: str) -> str:
+    for l in letters:
+        if l > target:
+            return l
+    return letters[0]
+81. odd_cells
+python
+Copy
+Edit
+def odd_cells(m: int, n: int, indices: list[list[int]]) -> int:
+    rows = [0] * m
+    cols = [0] * n
+    for r, c in indices:
+        rows[r] ^= 1
+        cols[c] ^= 1
+    return sum((rows[i] ^ cols[j]) for i in range(m) for j in range(n))
+82. pickingNumbers
+python
+Copy
+Edit
+def pickingNumbers(a: list[int]) -> int:
+    from collections import Counter
+    count = Counter(a)
+    return max(count[i] + count.get(i+1, 0) for i in count)
+83. power_of_string
+python
+Copy
+Edit
+def power_of_string(s: str) -> int:
+    max_len = cur = 1
+    for i in range(1, len(s)):
+        if s[i] == s[i-1]:
+            cur += 1
+            max_len = max(max_len, cur)
+        else:
+            cur = 1
+    return max_len
+84. quick_sort_partition
+python
+Copy
+Edit
+def quick_sort_partition(arr: list[int], low: int, high: int) -> int:
+    pivot = arr[high]
+    i = low
+    for j in range(low, high):
+        if arr[j] <= pivot:
+            arr[i], arr[j] = arr[j], arr[i]
+            i += 1
+    arr[i], arr[high] = arr[high], arr[i]
+    return i
+85. reformat_string
+python
+Copy
+Edit
+def reformat_string(s: str) -> str:
+    letters = [c for c in s if c.isalpha()]
+    digits = [c for c in s if c.isdigit()]
+    if abs(len(letters) - len(digits)) > 1:
+        return ''
+    if len(letters) < len(digits):
+        letters, digits = digits, letters
+    return ''.join(l + d if i < len(digits) else l for i, l in enumerate(letters))
+86. repeatedString
+python
+Copy
+Edit
+def repeatedString(s: str, n: int) -> int:
+    return s.count('a') * (n // len(s)) + s[:n % len(s)].count('a')
+87. repeated_subarray_pattern
+python
+Copy
+Edit
+def repeated_subarray_pattern(arr: list[int], m: int, k: int) -> bool:
+    for i in range(len(arr) - m * k + 1):
+        if all(arr[i + j] == arr[i + j - m] for j in range(m, m * k)):
+            return True
+    return False
+88. replace_elements_with_greatest_right
+python
+Copy
+Edit
+def replace_elements_with_greatest_right(arr: list[int]) -> list[int]:
+    res = []
+    for i in range(len(arr)):
+        res.append(max(arr[i+1:]) if i < len(arr)-1 else -1)
+    return res
+89. reverse_characters_in_words
+python
+Copy
+Edit
+def reverse_characters_in_words(s: str) -> str:
+    return ' '.join(word[::-1] for word in s.split(' '))
+90. rob
+python
+Copy
+Edit
+def rob(nums: list[int]) -> int:
+    if not nums: return 0
+    if len(nums) == 1: return nums[0]
+    prev, curr = 0, 0
+    for n in nums:
+        prev, curr = curr, max(curr, prev + n)
+    return curr
+91. round_grades
+python
+Copy
+Edit
+def round_grades(grades: list) -> list:
+    return [g if g < 38 or g % 5 < 3 else g + (5 - g % 5) for g in grades]
+92. shift_grid
+python
+Copy
+Edit
+def shift_grid(grid: list[list[int]], k: int) -> list[list[int]]:
+    flat = sum(grid, [])
+    k %= len(flat)
+    flat = flat[-k:] + flat[:-k]
+    return [flat[i * len(grid[0]):(i + 1) * len(grid[0])] for i in range(len(grid))]
+93. sort_by_frequency
+python
+Copy
+Edit
+def sort_by_frequency(nums: list[int]) -> list[int]:
+    from collections import Counter
+    count = Counter(nums)
+    return sorted(nums, key=lambda x: (count[x], -x))
+94. sorted_squares
+python
+Copy
+Edit
+def sorted_squares(nums: list[int]) -> list[int]:
+    return sorted(n * n for n in nums)
+95. sum_of_unique_elements
+python
+Copy
+Edit
+def sum_of_unique_elements(nums: list[int]) -> int:
+    from collections import Counter
+    c = Counter(nums)
+    return sum(k for k in c if c[k] == 1)
+96. superReducedString
+python
+Copy
+Edit
+def superReducedString(s: str) -> str:
+    stack = []
+    for c in s:
+        if stack and stack[-1] == c:
+            stack.pop()
+        else:
+            stack.append(c)
+    return ''.join(stack) if stack else "Empty String"
+97. tic_tac_toe_winner
+python
+Copy
+Edit
+def tic_tac_toe_winner(moves: list[list[int]]) -> str:
+    grid = [[''] * 3 for _ in range(3)]
+    for i, (x, y) in enumerate(moves):
+        player = 'A' if i % 2 == 0 else 'B'
+        grid[x][y] = player
+    for i in range(3):
+        if grid[i][0] == grid[i][1] == grid[i][2] != '':
+            return grid[i][0]
+        if grid[0][i] == grid[1][i] == grid[2][i] != '':
+            return grid[0][i]
+    if grid[0][0] == grid[1][1] == grid[2][2] != '':
+        return grid[0][0]
+    if grid[0][2] == grid[1][1] == grid[2][0] != '':
+        return grid[0][2]
+    return "Draw" if len(moves) == 9 else "Pending"
+98. to_hexspeak
+python
+Copy
+Edit
+def to_hexspeak(num: str) -> str:
+    conv = hex(int(num))[2:].upper().replace('0', 'O').replace('1', 'I')
+    return conv if all(c in 'ABCDEFIO' for c in conv) else "ERROR"
+99. unique_paths_with_obstacles
+python
+Copy
+Edit
+def unique_paths_with_obstacles(obstacleGrid: list[list[int]]) -> int:
+    if obstacleGrid[0][0] == 0:
+        return 0
+    m, n = len(obstacleGrid), len(obstacleGrid[0])
+    dp = [[0]*n for _ in range(m)]
+    dp[0][0] = 1
+    for i in range(m):
+        for j in range(n):
+            if obstacleGrid[i][j] == 0:
+                continue
+            if i > 0:
+                dp[i][j] += dp[i-1][j]
+            if j > 0:
+                dp[i][j] += dp[i][j-1]
+    return dp[-1][-1]
+100. unplaced_fruits
+python
+Copy
+Edit
+def unplaced_fruits(fruits: list[int], baskets: list[int]) -> int:
+    fruits.sort()
+    baskets.sort()
+    i = j = 0
+    while i < len(fruits) and j < len(baskets):
+        if fruits[i] <= baskets[j]:
+            i += 1
+            j += 1
+        else:
+            j += 1
+    return len(fruits) - i
+101. valid_palindrome
+python
+Copy
+Edit
+def valid_palindrome(s: str) -> bool:
+    def is_palin(x):
+        return x == x[::-1]
+    for i in range(len(s)):
+        if s[i] != s[~i]:
+            return is_palin(s[i+1:len(s)-i]) or is_palin(s[i:len(s)-i-1])
+    return True
